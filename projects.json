@@ -10,6 +10,54 @@
   },
   "projects": [
     {
+      "name": "M3U8 Downloader",
+      "type": "APK",
+      "icon": "⏬",
+      "desc": "Ειναι για μαζικη ληψη m3u8 links",
+      "tags": [],
+      "version": "v1.0",
+      "updated": "2026-10-16",
+      "download": "",
+      "demo": "https://drive.google.com/file/d/1kD9af-4gIil1DUwG88h5B8JyxxWDoaB9/view?usp=drive_link",
+      "repo": ""
+    },
+    {
+      "name": "M3u8 Generator",
+      "type": "APK",
+      "icon": "📱",
+      "desc": "Αν εχεις link απο 🏴‍☠️ site (πχ https://nuyhtiukmijvcjuhb.site/hls_sec/Beyblade_Metal_Fusion/1x01.mp4/master.m3u8) αλλάζοντας μονο το 1x01 θα παρεις και τα αλλα επεισόδια ",
+      "tags": [],
+      "version": "v1.0",
+      "updated": "2026-10-16",
+      "download": "",
+      "demo": "https://drive.google.com/file/d/1rn7aWZZFvKXa34vas1iWFGsDx_cYujcR/view?usp=drive_link",
+      "repo": ""
+    },
+    {
+      "name": "Dubber",
+      "type": "Άλλο",
+      "icon": "🗣️",
+      "desc": "Αυτόματςο",
+      "tags": [],
+      "version": "v1.0",
+      "updated": "2026-10-01",
+      "download": "",
+      "demo": "https://drive.google.com/file/d/1oDmnQr7FG9Rzw9ylp_QbdoOP3UGnrqC9/view?usp=drive_link",
+      "repo": ""
+    },
+    {
+      "name": "Bulk rename",
+      "type": "Άλλο",
+      "icon": "🖊️",
+      "desc": "μαζική αλλαγή ονομάτων σε αρχεία",
+      "tags": [],
+      "version": "v1.0",
+      "updated": "2026-10-01",
+      "download": "https://drive.google.com/file/d/1oDmnQr7FG9Rzw9ylp_QbdoOP3UGnrqC9/view?usp=drive_link",
+      "demo": "",
+      "repo": ""
+    },
+    {
       "name": "Quizball",
       "type": "Web",
       "icon": "⚽",
