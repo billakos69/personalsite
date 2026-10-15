@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Admin · Projects</title>
+<style>
+:root{--bg:#f3f5f9;--surface:#fff;--ink:#141a26;--muted:#5d6678;--line:#dde2ec;--accent:#2f6bff;--accent-ink:#fff;--danger:#d93c3c}
+@media(prefers-color-scheme:dark){:root{--bg:#0f131a;--surface:#171c26;--ink:#eef1f7;--muted:#9aa4b8;--line:#262d3a;--accent:#6c97ff;--accent-ink:#0f131a;--danger:#ff7a7a}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:900px;margin:0 auto;padding:0 18px 80px}
+.bar{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--line);padding:12px 0}
+.bar .wrap{display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding-bottom:0}
+.bar h1{font-size:20px;margin:0 auto 0 0}
+h2{font-size:20px;margin:30px 0 12px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:16px}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.full{grid-column:1/-1}
+label{display:block;font-size:13px;color:var(--muted);font-weight:600;margin-bottom:4px}
+input,select,textarea{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit}
+textarea{min-height:70px;resize:vertical}
+button,.btn{font:600 14px inherit;font-family:inherit;padding:10px 16px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+button.danger{color:var(--danger)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.head{display:flex;gap:10px;align-items:center;margin-bottom:12px}
+.head b{flex:1;font-size:17px}
+.dt{display:flex;gap:8px}
+.note{color:var(--muted);font-size:14px}
+#toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:999px;font-size:14px;opacity:0;transition:opacity .2s;pointer-events:none}
+#toast.show{opacity:1}
+</style>
+</head>
+<body>
+<div class="bar"><div class="wrap">
+ <h1>Admin Projects</h1>
+ <input type="file" id="file" accept=".json,application/json" hidden>
+ <button id="load">Άνοιγμα projects.json</button>
+ <button class="primary" id="save">Λήψη projects.json</button>
+</div></div>
+
+<div class="wrap">
+ <p class="note">Κάνε τις αλλαγές εδώ, πάτα «Λήψη projects.json» και αντικατάστησε το αρχείο στο GitHub repo. Οι αλλαγές σου αποθηκεύονται αυτόματα σε αυτόν τον browser μέχρι να τις κατεβάσεις.</p>
+
+ <h2>Ρυθμίσεις σελίδας</h2>
+ <div class="panel row" id="settings">
+  <div><label for="s-logo">Λογότυπο (το σημείο γίνεται χρωματιστό)</label><input id="s-logo"></div>
+  <div><label for="s-days">Ημέρες για «Recent updated»</label><input id="s-days" type="number" min="1"></div>
+  <div class="full"><label for="s-title">Κεντρικός τίτλος</label><input id="s-title"></div>
+  <div class="full"><label for="s-sub">Υπότιτλος</label><textarea id="s-sub"></textarea></div>
+  <div class="full"><label for="s-about">Κείμενο «Σχετικά»</label><textarea id="s-about"></textarea></div>
+  <div><label for="s-gh">GitHub (username ή πλήρες link)</label><input id="s-gh"></div>
+  <div><label for="s-mail">Gmail / Email επικοινωνίας</label><input id="s-mail" type="email"></div>
+ </div>
+
+ <h2>Projects <button class="primary" id="add" style="margin-left:8px">+ Νέο project</button></h2>
+ <div id="list"></div>
+</div>
+<div id="toast" role="status"></div>
+
+<script>
+const $=s=>document.querySelector(s);
+const KEY="projects-admin-draft";
+const blank=()=>({name:"Νέο project",type:"APK",icon:"📱",desc:"",tags:[],version:"v1.0",updated:today(),download:"",demo:"",repo:""});
+const today=()=>{const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");};
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let data={settings:{logo:"Dev.Projects",title:"",subtitle:"",about:"",github:"",email:"",recentDays:14},projects:[]};
+
+const toast=m=>{const t=$("#toast");t.textContent=m;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2200);};
+const draft=()=>{try{localStorage.setItem(KEY,JSON.stringify(data));}catch(e){}};
+
+const map={"s-logo":"logo","s-days":"recentDays","s-title":"title","s-sub":"subtitle","s-about":"about","s-gh":"github","s-mail":"email"};
+function fillSettings(){for(const id in map)$("#"+id).value=data.settings[map[id]]??"";}
+document.querySelectorAll("#settings input,#settings textarea").forEach(el=>el.addEventListener("input",()=>{
+ data.settings[map[el.id]]=el.type==="number"?(+el.value||14):el.value;draft();}));
+
+function field(i,k,label,type="text",full=false){
+ return `<div class="${full?"full":""}"><label>${label}</label><input data-i="${i}" data-k="${k}" type="${type}" value="${esc(data.projects[i][k])}"></div>`;
+}
+function render(){
+ $("#list").innerHTML=data.projects.map((p,i)=>`
+ <div class="panel">
+  <div class="head"><b>${esc(p.name||"Χωρίς όνομα")}</b><button class="danger" data-del="${i}">Διαγραφή</button></div>
+  <div class="row">
+   ${field(i,"name","Όνομα")}
+   <div><label>Τύπος</label><select data-i="${i}" data-k="type">${["APK","Web","Άλλο"].map(t=>`<option${p.type===t?" selected":""}>${t}</option>`).join("")}</select></div>
+   ${field(i,"icon","Εικονίδιο (emoji)")}
+   ${field(i,"version","Έκδοση")}
+   <div class="full"><label>Περιγραφή</label><textarea data-i="${i}" data-k="desc">${esc(p.desc)}</textarea></div>
+   ${field(i,"tags","Tags (χωρισμένα με κόμμα)","text",true)}
+   <div><label>Τελευταία ενημέρωση</label><div class="dt"><input data-i="${i}" data-k="updated" type="date" value="${esc(p.updated)}"><button data-today="${i}">Σήμερα</button></div></div>
+   ${field(i,"download","Link λήψης APK","url",true)}
+   ${field(i,"demo","Link site / εφαρμογής","url",true)}
+   ${field(i,"repo","Link κώδικα (GitHub)","url",true)}
+  </div>
+ </div>`).join("")||'<p class="note">Δεν υπάρχουν projects. Πάτα «+ Νέο project».</p>';
+ document.querySelectorAll("#list [data-k=tags]").forEach(el=>el.value=(data.projects[el.dataset.i].tags||[]).join(", "));
+}
+$("#list").addEventListener("input",e=>{
+ const el=e.target,i=el.dataset.i,k=el.dataset.k;if(i==null)return;
+ data.projects[i][k]=k==="tags"?el.value.split(",").map(t=>t.trim()).filter(Boolean):el.value;
+ if(k==="name")el.closest(".panel").querySelector(".head b").textContent=el.value||"Χωρίς όνομα";
+ draft();
+});
+$("#list").addEventListener("click",e=>{
+ const d=e.target.closest("[data-del]"),t=e.target.closest("[data-today]");
+ if(d&&confirm("Να διαγραφεί το project «"+data.projects[d.dataset.del].name+"»;")){data.projects.splice(d.dataset.del,1);draft();render();}
+ if(t){data.projects[t.dataset.today].updated=today();draft();render();toast("Η ημερομηνία ορίστηκε σε σήμερα");}
+});
+$("#add").onclick=()=>{data.projects.unshift(blank());draft();render();toast("Προστέθηκε νέο project");window.scrollTo({top:$("#list").offsetTop-80,behavior:"smooth"});};
+
+$("#save").onclick=()=>{
+ const out={settings:data.settings,projects:data.projects};
+ const a=document.createElement("a");
+ a.href=URL.createObjectURL(new Blob([JSON.stringify(out,null,2)],{type:"application/json"}));
+ a.download="projects.json";a.click();URL.revokeObjectURL(a.href);
+ toast("Κατέβηκε το projects.json");
+};
+$("#load").onclick=()=>$("#file").click();
+$("#file").onchange=e=>{
+ const f=e.target.files[0];if(!f)return;
+ f.text().then(t=>{try{adopt(JSON.parse(t));draft();toast("Φορτώθηκε το αρχείο");}catch(err){alert("Το αρχείο δεν είναι έγκυρο JSON.");}});
+};
+function adopt(d){
+ data={settings:{...data.settings,...(d.settings||{})},projects:Array.isArray(d.projects)?d.projects:[]};
+ fillSettings();render();
+}
+
+/* Εκκίνηση: πρώτα η πρόχειρη εκδοχή του browser, αλλιώς το projects.json του site */
+let local=null;try{local=JSON.parse(localStorage.getItem(KEY));}catch(e){}
+if(local){adopt(local);toast("Φορτώθηκαν οι τελευταίες αλλαγές σου");}
+else fetch("projects.json?v="+Date.now()).then(r=>r.json()).then(adopt).catch(()=>{fillSettings();render();});
+</script>
+</body>
+</html>

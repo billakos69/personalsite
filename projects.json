@@ -1,0 +1,15 @@
+{
+  "settings": {
+    "logo": "Dev.Projects",
+    "title": "Εφαρμογές και projects που φτιάχνω",
+    "subtitle": "Android APKs, web εφαρμογές και εργαλεία. Εδώ βρίσκεις το καθένα, με την τελευταία του ενημέρωση και σύνδεσμο λήψης.",
+    "about": "Γράψε εδώ λίγα λόγια για σένα και το τι φτιάχνεις.",
+    "github": "",
+    "email": "",
+    "recentDays": 14
+  },
+  "projects": [
+    {"name":"Παράδειγμα Android App","type":"APK","icon":"📱","desc":"Σύντομη περιγραφή της εφαρμογής και τι κάνει.","tags":["Android","WebView"],"version":"v1.2","updated":"2026-10-12","download":"","demo":"","repo":""},
+    {"name":"Παράδειγμα Web App","type":"Web","icon":"🌐","desc":"Μια web εφαρμογή που τρέχει απευθείας από τον browser.","tags":["PWA","JavaScript"],"version":"v2.0","updated":"2026-08-30","download":"","demo":"","repo":""}
+  ]
+}

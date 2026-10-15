@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Τα Projects μου</title>
+<meta name="theme-color" content="#14181f">
+<style>
+:root{--bg:#f3f5f9;--surface:#fff;--ink:#141a26;--muted:#5d6678;--line:#dde2ec;--accent:#2f6bff;--accent-ink:#fff;--new:#12a36a;--shadow:0 1px 2px rgba(20,26,38,.06),0 8px 24px -12px rgba(20,26,38,.18)}
+:root[data-theme=dark]{--bg:#0f131a;--surface:#171c26;--ink:#eef1f7;--muted:#9aa4b8;--line:#262d3a;--accent:#6c97ff;--accent-ink:#0f131a;--new:#3ddc97;--shadow:0 8px 24px -12px rgba(0,0,0,.6)}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+a{color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 85%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+nav{display:flex;align-items:center;justify-content:space-between;height:60px}
+.logo{font-weight:800;text-decoration:none;font-size:18px;letter-spacing:-.02em}
+.logo span{color:var(--accent)}
+.menu{display:flex;gap:6px;align-items:center}
+.menu a{text-decoration:none;padding:8px 14px;border-radius:999px;color:var(--muted);font-weight:600;font-size:15px}
+.menu a:hover,.menu a.active{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+.icon-btn{border:1px solid var(--line);background:var(--surface);color:var(--ink);width:40px;height:40px;border-radius:12px;cursor:pointer;font-size:18px}
+#burger{display:none}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.hero{padding:72px 0 40px}
+.hero h1{font-size:clamp(34px,6vw,58px);line-height:1.08;letter-spacing:-.03em;margin:0 0 16px;max-width:14ch}
+.hero p{color:var(--muted);font-size:18px;max-width:52ch;margin:0 0 24px}
+.stats{display:flex;gap:12px;flex-wrap:wrap}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 18px}
+.stat b{display:block;font-size:24px;line-height:1.2}.stat small{color:var(--muted)}
+section{padding:40px 0}
+h2{font-size:28px;letter-spacing:-.02em;margin:0 0 20px}
+.tools{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:22px}
+.search{flex:1;min-width:200px;padding:11px 16px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--surface);color:var(--muted);padding:9px 16px;border-radius:999px;cursor:pointer;font:600 14px inherit;font-family:inherit}
+.chip[aria-pressed=true]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px;display:flex;flex-direction:column;gap:12px;box-shadow:var(--shadow);position:relative}
+.card.recent{border-color:var(--new)}
+.top{display:flex;align-items:center;gap:12px}
+.ico{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;font-size:24px;background:color-mix(in srgb,var(--accent) 14%,transparent)}
+.card h3{margin:0;font-size:19px;line-height:1.25}
+.type{font-size:13px;color:var(--muted)}
+.card p{margin:0;color:var(--muted);flex:1}
+.tags{display:flex;gap:6px;flex-wrap:wrap}
+.tags span{font-size:12px;padding:3px 10px;border-radius:999px;background:var(--bg);border:1px solid var(--line);color:var(--muted)}
+.badge{position:absolute;top:14px;right:14px;background:var(--new);color:#06210f;font-weight:700;font-size:12px;padding:4px 10px;border-radius:999px}
+.meta{font-size:13px;color:var(--muted)}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{text-decoration:none;font-weight:600;font-size:14px;padding:9px 16px;border-radius:10px;border:1px solid var(--line);background:var(--bg)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+[hidden]{display:none!important}.btn:hover{filter:brightness(1.08)}
+.empty{display:none;color:var(--muted);padding:30px;text-align:center;border:1px dashed var(--line);border-radius:16px}
+.about{display:grid;gap:14px;max-width:62ch;color:var(--muted)}
+.contact{display:flex;gap:10px;flex-wrap:wrap}
+footer{padding:30px 0 50px;color:var(--muted);font-size:14px;border-top:1px solid var(--line);margin-top:30px}
+@media(max-width:700px){
+ #burger{display:block}
+ .menu{display:none;position:absolute;top:60px;left:0;right:0;flex-direction:column;align-items:stretch;background:var(--bg);padding:12px 20px 18px;border-bottom:1px solid var(--line)}
+ .menu.open{display:flex}
+ .hero{padding-top:44px}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header>
+ <div class="wrap">
+  <nav aria-label="Κύριο μενού">
+   <a class="logo" href="#home" id="logo">Dev<span>.</span>Projects</a>
+   <div class="menu" id="menu">
+    <a href="#home">Αρχική</a>
+    <a href="#projects">Projects</a>
+    <a href="#about">Σχετικά</a>
+    <a href="#contact">Επικοινωνία</a>
+    <button class="icon-btn" id="theme" aria-label="Αλλαγή θέματος" title="Αλλαγή θέματος">🌓</button>
+   </div>
+   <button class="icon-btn" id="burger" aria-label="Άνοιγμα μενού" aria-expanded="false">☰</button>
+  </nav>
+ </div>
+</header>
+
+<main class="wrap">
+ <div class="hero" id="home">
+  <h1 id="h-title">Τα projects μου</h1>
+  <p id="h-sub"></p>
+  <div class="stats" id="stats"></div>
+ </div>
+
+ <section id="projects">
+  <h2>Projects</h2>
+  <div class="tools">
+   <input class="search" id="q" type="search" placeholder="Αναζήτηση project…" aria-label="Αναζήτηση">
+   <div class="chips" id="chips"></div>
+  </div>
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty">Δεν βρέθηκε project. Δοκίμασε άλλη αναζήτηση ή φίλτρο.</div>
+ </section>
+
+ <section id="about">
+  <h2>Σχετικά</h2>
+  <div class="about">
+   <p id="about-text"></p>
+  </div>
+ </section>
+
+ <section id="contact">
+  <h2>Επικοινωνία</h2>
+  <div class="contact">
+   <a class="btn primary" id="gh" href="#" target="_blank" rel="noopener" hidden>GitHub</a>
+   <a class="btn" id="mail" href="#" target="_blank" rel="noopener" hidden>Gmail</a>
+  </div>
+ </section>
+</main>
+
+<footer><div class="wrap">© <span id="year"></span> · Φτιαγμένο με HTML, CSS και JS</div></footer>
+
+<script>
+let RECENT_DAYS = 14;
+let projects = [];
+
+const $ = s => document.querySelector(s);
+const grid=$("#grid"), empty=$("#empty"), q=$("#q"), chipsEl=$("#chips");
+let filter="Όλα";
+const MONTHS=["Ιαν","Φεβ","Μαρ","Απρ","Μαΐ","Ιουν","Ιουλ","Αυγ","Σεπ","Οκτ","Νοε","Δεκ"];
+const daysAgo = d => Math.floor((Date.now()-new Date(d+"T00:00:00"))/864e5);
+const fmt = d => { const x=new Date(d+"T00:00:00"); return x.getDate()+" "+MONTHS[x.getMonth()]+" "+x.getFullYear(); };
+const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function agoText(n){ if(n<=0) return "σήμερα"; if(n===1) return "χθες"; if(n<30) return "πριν "+n+" μέρες"; if(n<365){const m=Math.floor(n/30);return "πριν "+m+(m===1?" μήνα":" μήνες");} const y=Math.floor(n/365); return "πριν "+y+(y===1?" χρόνο":" χρόνια"); }
+
+function render(){
+ const term=q.value.trim().toLowerCase();
+ const list=projects
+  .filter(p=>(filter==="Όλα"||p.type===filter) && (p.name+" "+p.desc+" "+(p.tags||[]).join(" ")).toLowerCase().includes(term))
+  .sort((a,b)=>b.updated.localeCompare(a.updated));
+ grid.innerHTML=list.map(p=>{
+  const n=daysAgo(p.updated), recent=n>=0&&n<=RECENT_DAYS;
+  const links=[
+   p.download?`<a class="btn primary" href="${esc(p.download)}" target="_blank" rel="noopener">Λήψη${p.type==="APK"?" APK":""}</a>`:"",
+   p.demo?`<a class="btn primary" href="${esc(p.demo)}" target="_blank" rel="noopener">Άνοιγμα</a>`:"",
+   p.repo?`<a class="btn" href="${esc(p.repo)}" target="_blank" rel="noopener">Κώδικας</a>`:""
+  ].join("");
+  return `<article class="card${recent?" recent":""}">
+   ${recent?'<span class="badge">Recent updated</span>':""}
+   <div class="top"><div class="ico">${p.icon||"📦"}</div><div><h3>${esc(p.name)}</h3><div class="type">${esc(p.type)}${p.version?" · "+esc(p.version):""}</div></div></div>
+   <p>${esc(p.desc)}</p>
+   <div class="tags">${(p.tags||[]).map(t=>`<span>${esc(t)}</span>`).join("")}</div>
+   <div class="meta">Ενημερώθηκε ${fmt(p.updated)} (${agoText(n)})</div>
+   <div class="actions">${links}</div>
+  </article>`;
+ }).join("");
+ empty.style.display=list.length?"none":"block";
+}
+
+function setup(){
+ const types=["Όλα",...new Set(projects.map(p=>p.type))];
+ chipsEl.innerHTML=types.map(t=>`<button class="chip" aria-pressed="${t===filter}" data-t="${esc(t)}">${esc(t)}</button>`).join("");
+ chipsEl.onclick=e=>{const b=e.target.closest(".chip");if(!b)return;filter=b.dataset.t;chipsEl.querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-pressed",c===b));render();};
+ const recentCount=projects.filter(p=>{const n=daysAgo(p.updated);return n>=0&&n<=RECENT_DAYS;}).length;
+ const apks=projects.filter(p=>p.type==="APK").length;
+ $("#stats").innerHTML=[[projects.length,"Projects"],[apks,"APKs"],[recentCount,"Πρόσφατες ενημερώσεις"]].map(s=>`<div class="stat"><b>${s[0]}</b><small>${s[1]}</small></div>`).join("");
+ $("#year").textContent=new Date().getFullYear();
+}
+q.addEventListener("input",render);
+function applySettings(c){
+ if(c.logo){const i=c.logo.indexOf(".");$("#logo").innerHTML=i>-1?esc(c.logo.slice(0,i))+"<span>.</span>"+esc(c.logo.slice(i+1)):esc(c.logo);}
+ if(c.title){$("#h-title").textContent=c.title;document.title=c.title;}
+ $("#h-sub").textContent=c.subtitle||"";
+ $("#about-text").textContent=c.about||"";
+ if(c.recentDays)RECENT_DAYS=+c.recentDays;
+ if(c.github){const g=$("#gh");g.href=c.github.startsWith("http")?c.github:"https://github.com/"+c.github;g.hidden=false;}
+ if(c.email){const m=$("#mail");m.href="https://mail.google.com/mail/?view=cm&fs=1&to="+encodeURIComponent(c.email);m.hidden=false;}
+}
+fetch("projects.json?v="+Date.now()).then(r=>{if(!r.ok)throw 0;return r.json();}).then(d=>{
+ applySettings(d.settings||{});projects=d.projects||[];setup();render();
+}).catch(()=>{setup();render();empty.textContent="Δεν φορτώθηκε το projects.json. Αν άνοιξες το αρχείο απευθείας από τον υπολογιστή, ανέβασέ το στο GitHub Pages ή τρέξε τοπικό server.";empty.style.display="block";});
+
+/* Μενού και θέμα */
+const menu=$("#menu"), burger=$("#burger");
+burger.onclick=()=>{const o=menu.classList.toggle("open");burger.setAttribute("aria-expanded",o);};
+menu.addEventListener("click",e=>{if(e.target.matches("a"))menu.classList.remove("open");burger.setAttribute("aria-expanded","false");});
+const root=document.documentElement;
+let saved=null;try{saved=localStorage.getItem("theme");}catch(e){}
+root.dataset.theme=saved||(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light");
+$("#theme").onclick=()=>{const t=root.dataset.theme==="dark"?"light":"dark";root.dataset.theme=t;try{localStorage.setItem("theme",t);}catch(e){}};
+
+/* Ενεργό στοιχείο μενού κατά το scroll */
+const links=[...menu.querySelectorAll("a")];
+const io=new IntersectionObserver(es=>{es.forEach(en=>{if(en.isIntersecting){links.forEach(l=>l.classList.toggle("active",l.getAttribute("href")==="#"+en.target.id));}});},{rootMargin:"-40% 0px -55% 0px"});
+["home","projects","about","contact"].forEach(id=>io.observe(document.getElementById(id)));
+</script>
+</body>
+</html>
